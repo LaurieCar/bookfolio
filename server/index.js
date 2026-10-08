@@ -3,7 +3,7 @@ import cors from "cors";
 import db from "./db.js";
 import booksRouter from "./routes/books.js";
 import searchRouter from "./routes/search.js";
-//import statsRouter from "./routes/stats.js";
+import statsRouter from "./routes/stats.js";
 
 const app = express();
 const PORT = 3001;
@@ -17,7 +17,7 @@ app.get("/api/health", (req, res) => {
 
 app.use("/api/books", booksRouter);
 app.use("/api/search", searchRouter);
-//app.use("/api/stats", statsRouter);
+app.use("/api/stats", statsRouter);
 
 // gestion des erreurs non prévues
 app.use((err, req, res, next) => {

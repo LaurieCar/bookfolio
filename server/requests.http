@@ -32,7 +32,7 @@ POST {{api}}/books
 Content-Type: application/json
 
 {
-  "google_id": "test123",
+  "google_id": "test12345",
   "title": "Dune",
   "authors": "Frank Herbert",
   "page_count": 600
@@ -56,10 +56,10 @@ Content-Type: application/json
 }
 
 ### Passer le livre 1 en "en cours"
-PUT {{api}}/books/1
+PUT {{api}}/books/3
 Content-Type: application/json
 
-{ "status": "en_cours" }
+{ "status": "lu" }
 
 ### Noter le livre 1
 PUT {{api}}/books/1
@@ -90,3 +90,6 @@ DELETE {{api}}/books/1
 
 ### Supprimer à nouveau le livre 1 (→ 404, il n'existe plus)
 DELETE {{api}}/books/1
+
+### Statistiques
+GET {{api}}/stats
