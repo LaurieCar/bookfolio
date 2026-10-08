@@ -43,10 +43,32 @@ Dans `server/package.json`, ajouter `"type"` et les `"scripts"` :
 {
   "type": "module",
   "scripts": {
-    "dev": "node --watch index.js",
-    "start": "node index.js"
+    "dev": "node --env-file=.env --watch index.js",
+    "start": "node --env-file=.env index.js"
   }
 }
+```
+
+### Clé API Google Books
+
+L'API Google Books nécessite une clé (gratuite) :
+
+1. Sur la [Google Cloud Console](https://console.cloud.google.com), créer un projet.
+2. Activer **Books API** (*API et services → Bibliothèque*).
+3. Créer une clé API (*API et services → Identifiants → Créer des identifiants → Clé API*).
+
+Copier `server/.env.example` en `server/.env`, puis y mettre la clé :
+
+```env
+GOOGLE_BOOKS_API_KEY=ta_cle_ici
+```
+
+Le fichier `.env` n'est pas versionné (il est dans le `.gitignore`).
+
+Tester la clé dans le navigateur (remplacer `TA_CLE`) :
+
+```
+https://www.googleapis.com/books/v1/volumes?q=le+petit+prince&maxResults=2&key=TA_CLE
 ```
 
 ### Base de données
