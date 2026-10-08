@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import db from "./db.js";
-//import booksRouter from "./routes/books.js";
+import booksRouter from "./routes/books.js";
 import searchRouter from "./routes/search.js";
 //import statsRouter from "./routes/stats.js";
 
@@ -15,7 +15,7 @@ app.get("/api/health", (req, res) => {
   res.json({ message: "OK" });
 });
 
-//app.use("/api/books", booksRouter);
+app.use("/api/books", booksRouter);
 app.use("/api/search", searchRouter);
 //app.use("/api/stats", statsRouter);
 

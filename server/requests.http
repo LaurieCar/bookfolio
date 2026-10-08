@@ -1,0 +1,92 @@
+@api = http://localhost:3001/api
+
+### Santé
+GET {{api}}/health
+
+### Recherche Google Books
+GET {{api}}/search?q=dune
+
+### Lister mes livres
+GET {{api}}/books
+
+### Lister les livres "à lire"
+GET {{api}}/books?status=a_lire
+
+### Chercher dans ma bibliothèque
+GET {{api}}/books?q=dune
+
+### Détail du livre 1
+GET {{api}}/books/1
+
+### Détail d'un livre qui n'existe pas (→ 404)
+GET {{api}}/books/9999
+
+### Recherche par auteur
+GET {{api}}/search?q=inauthor:herbert
+
+### Recherche par ISBN
+GET {{api}}/search?q=isbn:9782070612758
+
+### Ajouter un livre (→ 201, puis 409 si on renvoie la même requête)
+POST {{api}}/books
+Content-Type: application/json
+
+{
+  "google_id": "test123",
+  "title": "Dune",
+  "authors": "Frank Herbert",
+  "page_count": 600
+}
+
+### Ajouter sans titre (→ 400)
+POST {{api}}/books
+Content-Type: application/json
+
+{
+  "authors": "Inconnu"
+}
+
+### Ajouter avec un statut invalide (→ 400)
+POST {{api}}/books
+Content-Type: application/json
+
+{
+  "title": "Test",
+  "status": "fini"
+}
+
+### Passer le livre 1 en "en cours"
+PUT {{api}}/books/1
+Content-Type: application/json
+
+{ "status": "en_cours" }
+
+### Noter le livre 1
+PUT {{api}}/books/1
+Content-Type: application/json
+
+{ "rating": 4, "review": "Génial !" }
+
+### Retirer la note (→ 200, rating null)
+PUT {{api}}/books/1
+Content-Type: application/json
+
+{ "rating": null }
+
+### Note invalide (→ 400)
+PUT {{api}}/books/1
+Content-Type: application/json
+
+{ "rating": 7 }
+
+### Livre inexistant (→ 404)
+PUT {{api}}/books/9999
+Content-Type: application/json
+
+{ "status": "lu" }
+
+### Supprimer le livre 1 (→ 204)
+DELETE {{api}}/books/1
+
+### Supprimer à nouveau le livre 1 (→ 404, il n'existe plus)
+DELETE {{api}}/books/1
