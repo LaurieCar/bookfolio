@@ -1,0 +1,19 @@
+# dépendances
+node_modules/
+
+# base de données locale
+*.db
+
+# variables secrètes
+.env
+
+# fichiers générés
+dist/
+
+# docs perso
+docs/
+
+# fichiers système / éditeur
+.DS_Store
+Thumbs.db
+.vscode/
