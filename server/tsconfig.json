@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    // Node 24 exécute les .ts directement (il retire les types) :
+    // TypeScript sert uniquement à VÉRIFIER le code, il ne génère aucun fichier
+    "noEmit": true,
+    "target": "esnext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "types": ["node"],
+
+    // Imports avec l'extension .ts (obligatoire pour Node)
+    "allowImportingTsExtensions": true,
+    // Uniquement de la syntaxe que Node sait retirer (pas d'enum, etc.)
+    "erasableSyntaxOnly": true,
+    // Oblige à écrire « import type » pour les imports de types
+    "verbatimModuleSyntax": true,
+
+    // Vérifications strictes
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
+}

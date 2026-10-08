@@ -1,35 +1,38 @@
 import { Router } from "express";
-import db from "../db.js";
+import Database from "better-sqlite3";
+import db from "../db.ts";
+import type { Book } from "../types.ts";
 
 const router = Router();
 
-const STATUTS = ["a_lire", "en_cours", "lu"];
+const STATUTS: string[] = ["a_lire", "en_cours", "lu"];
 
 // GET /api/books : lister (avec des filtres)
 router.get("/", (req, res) => {
   const { status, q } = req.query;
 
   let sql = "SELECT * FROM books WHERE 1=1"; // « 1=1 » est une astuce pour ajouter des AND facilement
-  const params = [];
+  const params: string[] = [];
 
-  if (status) {
+  if (typeof status === "string") {
     sql += " AND status = ?";
     params.push(status);
   }
-  if (q) {
+  if (typeof q === "string") {
     sql += " AND (title LIKE ? OR authors LIKE ?)";
     params.push(`%${q}%`, `%${q}%`);
   }
   sql += " ORDER BY updated_at DESC";
 
-  res.json(db.prepare(sql).all(...params));
+  const books = db.prepare(sql).all(...params) as Book[];
+  res.json(books);
 });
 
 // GET /api/books/:id : détail d'un livre
 router.get("/:id", (req, res) => {
   const book = db
     .prepare("SELECT * FROM books WHERE id = ?")
-    .get(req.params.id);
+    .get(req.params.id) as Book | undefined;
   if (!book) return res.status(404).json({ error: "Livre introuvable" });
   res.json(book);
 });
@@ -47,7 +50,7 @@ router.post("/", (req, res) => {
     isbn,
     categories,
     status = "a_lire",
-  } = req.body;
+  } = req.body as Partial<Book>;
 
   // si titre manquant ou avec que des espaces
   if (!title || title.trim() === "")
@@ -85,16 +88,19 @@ router.post("/", (req, res) => {
     // on relit le livre créé pour le renvoyer au client
     const book = db
       .prepare("SELECT * FROM books WHERE id = ?")
-      .get(result.lastInsertRowid);
+      .get(result.lastInsertRowid) as Book;
     res.status(201).json(book);
   } catch (error) {
     // doublon de google_id, insert échoue
-    if (error.code === "SQLITE_CONSTRAINT_UNIQUE") {
+    if (
+      error instanceof Database.SqliteError &&
+      error.code === "SQLITE_CONSTRAINT_UNIQUE"
+    ) {
       return res
         .status(409)
         .json({ error: "Ce livre est déjà dans ta bibliothèque" });
     }
-    throw error; // autre erreur : le gestionnaire d'erreurs de index.js répond 500
+    throw error; // autre erreur : le gestionnaire d'erreurs de index.ts répond 500
   }
 });
 
@@ -103,11 +109,11 @@ router.put("/:id", (req, res) => {
   // récupérer un livre existant
   const existant = db
     .prepare("SELECT * FROM books WHERE id = ?")
-    .get(req.params.id);
+    .get(req.params.id) as Book | undefined;
   if (!existant) return res.status(404).json({ error: "Livre introuvable" });
 
   // Fusionner
-  const update = { ...existant, ...req.body };
+  const update: Book = { ...existant, ...(req.body as Partial<Book>) };
 
   // validation statut
   if (!STATUTS.includes(update.status))
@@ -143,7 +149,9 @@ router.put("/:id", (req, res) => {
   });
 
   // réponse
-  const book = db.prepare("SELECT * FROM books WHERE id = ?").get(existant.id);
+  const book = db
+    .prepare("SELECT * FROM books WHERE id = ?")
+    .get(existant.id) as Book;
   res.json(book);
 });
 

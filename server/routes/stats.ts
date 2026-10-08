@@ -1,5 +1,6 @@
 import { Router } from "express";
-import db from "../db.js";
+import db from "../db.ts";
+import type { Statut } from "../types.ts";
 
 const router = Router();
 
@@ -8,7 +9,7 @@ router.get("/", (req, res) => {
   // STATS nombre de livres par statut
   const lignes = db
     .prepare("SELECT status, COUNT(*) AS total FROM books GROUP BY status")
-    .all();
+    .all() as { status: Statut; total: number }[];
   // remplir l'objet
   const parStatut = { a_lire: 0, en_cours: 0, lu: 0 };
   for (const ligne of lignes) {
@@ -17,17 +18,18 @@ router.get("/", (req, res) => {
   const total = parStatut.a_lire + parStatut.en_cours + parStatut.lu;
 
   // STATS nombre de pages lues
-  const pagesLues =
-    db
-      .prepare("SELECT SUM(page_count) AS pages FROM books WHERE status = 'lu'")
-      .get().pages ?? 0; // si aucun livre lu, renvoie 0 au lieu de null
+  const { pages } = db
+    .prepare("SELECT SUM(page_count) AS pages FROM books WHERE status = 'lu'")
+    .get() as { pages: number | null };
+  const pagesLues = pages ?? 0; // si aucun livre lu, renvoie 0 au lieu de null
 
   // STATS note moyenne
-  const noteMoyenne = db
+  const { moyenne } = db
     .prepare(
       "SELECT ROUND(AVG(rating), 1) AS moyenne FROM books WHERE rating IS NOT NULL",
     )
-    .get().moyenne;
+    .get() as { moyenne: number | null };
+  const noteMoyenne = moyenne; // null s'il n'y a encore aucune note
 
   // STATS top auteurs
   const topAuteurs = db
@@ -41,7 +43,7 @@ router.get("/", (req, res) => {
         LIMIT 5
         `,
     )
-    .all();
+    .all() as { authors: string; total: number }[];
 
   res.json({ parStatut, total, pagesLues, noteMoyenne, topAuteurs });
 });

@@ -12,7 +12,7 @@ Les infos des livres (couverture, auteur, résumé, nombre de pages…) sont ré
 
 ## 🧰 Stack technique
 
-- **Backend** : Node.js, Express, SQLite (`better-sqlite3`)
+- **Backend** : Node.js, Express, TypeScript, SQLite (`better-sqlite3`)
 - **Frontend** : React (Vite), React Router, Tailwind CSS 4
 - **API externe** : Google Books
 
@@ -20,7 +20,7 @@ Les infos des livres (couverture, auteur, résumé, nombre de pages…) sont ré
 
 ## ✅ Prérequis
 
-- [Node.js](https://nodejs.org) **v20 ou plus** (développé avec la v24)
+- [Node.js](https://nodejs.org) **v22.18 ou plus** (développé avec la v24), pour exécuter directement les fichiers TypeScript
 - npm **v10 ou plus** (installé avec Node.js)
 - [Git](https://git-scm.com)
 
@@ -35,6 +35,7 @@ mkdir server
 cd server
 npm init -y
 npm install express cors better-sqlite3
+npm install --save-dev typescript @types/node @types/express @types/cors @types/better-sqlite3
 ```
 
 Dans `server/package.json`, ajouter `"type"` et les `"scripts"` :
@@ -42,12 +43,39 @@ Dans `server/package.json`, ajouter `"type"` et les `"scripts"` :
 ```json
 {
   "type": "module",
+  "main": "index.ts",
   "scripts": {
-    "dev": "node --env-file=.env --watch index.js",
-    "start": "node --env-file=.env index.js"
+    "dev": "node --env-file=.env --watch index.ts",
+    "start": "node --env-file=.env index.ts",
+    "typecheck": "tsc"
   }
 }
 ```
+
+Node exécute directement les fichiers `.ts`, en retirant les types. TypeScript sert uniquement à vérifier le code (`npm run typecheck`).
+
+`server/tsconfig.json` :
+
+```jsonc
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "target": "esnext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "types": ["node"],
+    "allowImportingTsExtensions": true,
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
+}
+```
+
+Les imports entre fichiers du serveur se font avec l'extension `.ts` (`import db from "./db.ts";`), et les imports de types avec `import type`.
 
 ### Clé API Google Books
 
@@ -75,9 +103,9 @@ https://www.googleapis.com/books/v1/volumes?q=le+petit+prince&maxResults=2&key=T
 
 SQLite avec `better-sqlite3` (installé avec le backend) : toute la base tient dans un seul fichier.
 
-`server/db.js` (connexion et création de la table `books`) :
+`server/db.ts` (connexion et création de la table `books`) :
 
-```js
+```ts
 import Database from "better-sqlite3";
 import fs from "node:fs";
 
@@ -109,11 +137,13 @@ db.exec(`
 export default db;
 ```
 
-Dans `server/index.js`, importer la connexion :
+Dans `server/index.ts`, importer le fichier pour créer la table au démarrage :
 
-```js
-import db from "./db.js";
+```ts
+import "./db.ts";
 ```
+
+Les colonnes de la table sont décrites par le type `Book` dans `server/types.ts`.
 
 Le fichier `server/data/bibliotheque.db` est créé automatiquement au premier lancement du serveur. Il n'est pas versionné (`*.db` dans le `.gitignore`).
 
@@ -171,3 +201,10 @@ npm run dev
 
 - API : <http://localhost:3001> (test : <http://localhost:3001/api/health>)
 - Application : <http://localhost:5173>
+
+Vérifier les types du backend :
+
+```bash
+cd server
+npm run typecheck
+```
