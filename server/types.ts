@@ -24,3 +24,12 @@ export interface Book extends InfosLivre {
   created_at: string;
   updated_at: string;
 }
+
+// La réponse de GET /api/stats
+export interface Stats {
+  parStatut: Record<Statut, number>; // { a_lire: 12, en_cours: 2, lu: 34 }
+  total: number;
+  pagesLues: number;
+  noteMoyenne: number | null; // null s'il n'y a encore aucune note
+  topAuteurs: { authors: string; total: number }[];
+}

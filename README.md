@@ -13,7 +13,7 @@ Les infos des livres (couverture, auteur, résumé, nombre de pages…) sont ré
 ## 🧰 Stack technique
 
 - **Backend** : Node.js, Express, TypeScript, SQLite (`better-sqlite3`)
-- **Frontend** : React (Vite), React Router, Tailwind CSS 4
+- **Frontend** : React (Vite), TypeScript, React Router, Tailwind CSS 4
 - **API externe** : Google Books
 
 ---
@@ -152,15 +152,17 @@ Le fichier `server/data/bibliotheque.db` est créé automatiquement au premier l
 ### Frontend
 
 ```bash
-npm create vite@latest client -- --template react
+npm create vite@latest client -- --template react-ts
 cd client
 npm install
 npm install tailwindcss @tailwindcss/vite react-router
 ```
 
-`client/vite.config.js` (plugins React + Tailwind, et proxy `/api` vers le serveur) :
+Le modèle `react-ts` fournit la configuration TypeScript. Le script `npm run typecheck` (`tsc`) vérifie les types.
 
-```js
+`client/vite.config.ts` (plugins React + Tailwind, et proxy `/api` vers le serveur) :
+
+```ts
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
@@ -179,6 +181,12 @@ export default defineConfig({
 
 ```css
 @import "tailwindcss";
+```
+
+`client/src/types.ts` (les types sont définis une seule fois, côté serveur, et réutilisés par le client) :
+
+```ts
+export type { Statut, InfosLivre, Book, Stats } from "../../server/types.ts";
 ```
 
 ---
@@ -202,9 +210,8 @@ npm run dev
 - API : <http://localhost:3001> (test : <http://localhost:3001/api/health>)
 - Application : <http://localhost:5173>
 
-Vérifier les types du backend :
+Vérifier les types (dans `server/` et dans `client/`) :
 
 ```bash
-cd server
 npm run typecheck
 ```

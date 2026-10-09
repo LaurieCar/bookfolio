@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    // Vite transforme les .tsx en JavaScript pour le navigateur :
+    // TypeScript sert uniquement à VÉRIFIER le code, il ne génère aucun fichier
+    "noEmit": true,
+    "target": "es2023",
+    "lib": ["es2023", "dom", "dom.iterable"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "types": ["vite/client", "node"],
+
+    // Le JSX de React (les balises <div> dans le code)
+    "jsx": "react-jsx",
+
+    // Imports avec l'extension .ts / .tsx
+    "allowImportingTsExtensions": true,
+    // Uniquement de la syntaxe facile à retirer (pas d'enum, etc.)
+    "erasableSyntaxOnly": true,
+    // Oblige à écrire « import type » pour les imports de types
+    "verbatimModuleSyntax": true,
+
+    // Vérifications strictes
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "include": ["src", "vite.config.ts"]
+}

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import db from "../db.ts";
-import type { Statut } from "../types.ts";
+import type { Stats, Statut } from "../types.ts";
 
 const router = Router();
 
@@ -45,7 +45,8 @@ router.get("/", (req, res) => {
     )
     .all() as { authors: string; total: number }[];
 
-  res.json({ parStatut, total, pagesLues, noteMoyenne, topAuteurs });
+  const stats: Stats = { parStatut, total, pagesLues, noteMoyenne, topAuteurs };
+  res.json(stats);
 });
 
 export default router;
