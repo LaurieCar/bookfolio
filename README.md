@@ -1,4 +1,6 @@
-# 📚 Bookfolio
+# 📚 BookFolio
+
+> *Vos lectures prennent vie.*
 
 Une petite application web perso pour **cataloguer mes livres** et suivre mes lectures :
 
