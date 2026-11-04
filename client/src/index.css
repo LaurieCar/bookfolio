@@ -1,1 +1,32 @@
 @import "tailwindcss";
+
+@theme {
+  /* Palette principale */
+  --color-sage: #6b8f71;
+  --color-peach: #f4a261;
+  --color-lavender: #8b7cc3;
+  --color-cream: #faf7f2;
+  --color-ink: #1f2937;
+  --color-primary: #1f4354;
+
+  /* Surfaces et bordures */
+  --color-muted: #f1f5f9;
+  --color-line: #cbd5e1;
+
+  /* Statuts de lecture : fond + texte */
+  --color-a-lire: #e9e4f7;
+  --color-a-lire-text: #51427e;
+  --color-en-cours: #ffe4d6;
+  --color-en-cours-text: #87431d;
+  --color-lu: #d8e9dd;
+  --color-lu-text: #28583c;
+
+  /* Polices : --font-sans devient la police par défaut de toute l'appli */
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-heading: "Poppins", system-ui, sans-serif;
+
+  /* Formes */
+  --radius-control: 12px;
+  --radius-card: 16px;
+  --shadow-card: 0 4px 18px rgba(31, 41, 55, 0.06);
+}

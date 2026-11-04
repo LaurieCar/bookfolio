@@ -9,7 +9,7 @@ import StatsPage from "./pages/StatsPage.tsx";
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-stone-50 text-stone-800">
+    <div className="min-h-screen bg-cream text-ink">
       {/*<Navbar />*/}
       <main className="max-w-6xl mx-auto p-4">
         <Routes>
