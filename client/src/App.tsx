@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router";
 
-//import Navbar from "./components/Navbar.tsx";
+import Navbar from "./components/Navbar.tsx";
 import HomePage from "./pages/HomePage.tsx";
 import LibraryPage from "./pages/LibraryPage.tsx";
 import AddBookPage from "./pages/AddBookPage.tsx";
@@ -10,7 +10,7 @@ import StatsPage from "./pages/StatsPage.tsx";
 export default function App() {
   return (
     <div className="min-h-screen bg-cream text-ink">
-      {/*<Navbar />*/}
+      <Navbar />
       <main className="max-w-6xl mx-auto p-4">
         <Routes>
           <Route path="/" element={<HomePage />} />

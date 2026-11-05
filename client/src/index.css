@@ -1,24 +1,27 @@
 @import "tailwindcss";
 
 @theme {
-  /* Palette principale */
-  --color-sage: #6b8f71;
-  --color-peach: #f4a261;
-  --color-lavender: #8b7cc3;
-  --color-cream: #faf7f2;
-  --color-ink: #1f2937;
-  --color-primary: #1f4354;
+  /* Les commentaires donnent le nom de chaque couleur dans la charte */
 
-  /* Surfaces et bordures */
-  --color-muted: #f1f5f9;
-  --color-line: #cbd5e1;
+  /* Palette principale */
+  --color-sage: #6b8f71; /* Sauge : identité, accents, progression */
+  --color-peach: #f4a261; /* Pêche : accents chaleureux, illustrations */
+  --color-lavender: #8b7cc3; /* Lavande : illustrations */
+  --color-cream: #faf7f2; /* Crème : fond principal */
+  --color-ink: #1f2937; /* Anthracite : titres, textes, navigation */
+  --color-primary: #1f4354; /* Bleu profond : boutons principaux, liens d'action */
+
+  /* Palette secondaire
+     (Vert clair, Pêche clair et Lavande clair = fonds des badges, voir Statuts) */
+  --color-muted: #f1f5f9; /* Gris clair : surfaces neutres */
+  --color-line: #cbd5e1; /* Gris moyen : bordures, éléments inactifs */
 
   /* Statuts de lecture : fond + texte */
-  --color-a-lire: #e9e4f7;
+  --color-a-lire: #e9e4f7; /* Lavande clair */
   --color-a-lire-text: #51427e;
-  --color-en-cours: #ffe4d6;
+  --color-en-cours: #ffe4d6; /* Pêche clair */
   --color-en-cours-text: #87431d;
-  --color-lu: #d8e9dd;
+  --color-lu: #d8e9dd; /* Vert clair */
   --color-lu-text: #28583c;
 
   /* Polices : --font-sans devient la police par défaut de toute l'appli */
