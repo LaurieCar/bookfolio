@@ -24,6 +24,13 @@
   --color-lu: #d8e9dd; /* Vert clair */
   --color-lu-text: #28583c;
 
+  /* COuvertures des livres par défaut */
+  --color-violet: #6e5fa8; /* Violet */
+  --color-sage-dark: #4e6e55; /* Vert foncé */
+  --color-sand: #e9c9a8; /* Beige */
+  --color-sage-light: #c9d8cd; /* Vert pâle */
+  --color-lavender-light: #d9d1f0; /* Lavande pâle */
+
   /* Polices : --font-sans devient la police par défaut de toute l'appli */
   --font-sans: "Inter", system-ui, sans-serif;
   --font-heading: "Poppins", system-ui, sans-serif;

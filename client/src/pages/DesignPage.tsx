@@ -1,7 +1,11 @@
 import Badge from "../components/ui/Badge";
 import Button from "../components/ui/Button";
+import ButtonLink from "../components/ui/ButtonLink";
 import Card from "../components/ui/Card";
 import Input from "../components/ui/Input";
+import StatusBadge from "../components/StatusBadge";
+import BookCard from "../components/BookCard";
+import type { Book } from "../types";
 
 export default function DesignPage() {
   return (
@@ -16,6 +20,7 @@ export default function DesignPage() {
           <Button>Principal</Button>
           <Button variant="secondary">Secondaire</Button>
           <Button disabled>Désactivé</Button>
+          <ButtonLink to="/ajouter">+ Ajouter un livre</ButtonLink>
         </div>
       </section>
       <section className="space-y-2">
@@ -34,6 +39,41 @@ export default function DesignPage() {
       <section className="space-y-2">
         <h2 className="font-heading text-lg font-semibold">Champs</h2>
         <Input label="Titre, auteur ou ISBN" placeholder="Victor Hugo" />
+      </section>
+      <section className="space-y-2">
+        <h2 className="font-heading text-lg font-semibold">Statuts Badges</h2>
+        <StatusBadge status="a_lire" />
+        <StatusBadge status="en_cours" />
+        <StatusBadge status="lu" />
+      </section>
+      <section className="space-y-2">
+        <h2 className="font-heading text-lg font-semibold">Liste des livres</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          {/* Un livre avec auteur */}
+          <BookCard
+            book={
+              {
+                id: 5,
+                title: "La Peste",
+                authors: "Albert Camus",
+                status: "lu",
+                cover_url: null,
+              } as Book
+            }
+          />
+          {/* Un livre sans auteur */}
+          <BookCard
+            book={
+              {
+                id: 6,
+                title: "Le livre sans nom",
+                authors: null,
+                status: "a_lire",
+                cover_url: null,
+              } as Book
+            }
+          />
+        </div>
       </section>
       {/* … une section par composant : badges des 3 statuts, carte, champ … */}
     </div>

@@ -93,3 +93,107 @@ DELETE {{api}}/books/1
 
 ### Statistiques
 GET {{api}}/stats
+
+### ───── Données de test pour l'étape 6 ─────
+
+### Sans couverture, lu (couleur suivante)
+POST {{api}}/books
+Content-Type: application/json
+
+{
+  "title": "La Peste",
+  "authors": "Albert Camus",
+  "page_count": 352,
+  "status": "lu"
+}
+
+### Sans couverture, à lire
+POST {{api}}/books
+Content-Type: application/json
+
+{
+  "title": "La Horde du Contrevent",
+  "authors": "Alain Damasio",
+  "status": "a_lire"
+}
+
+### Sans couverture, en cours
+POST {{api}}/books
+Content-Type: application/json
+
+{
+  "title": "L'Amie prodigieuse",
+  "authors": "Elena Ferrante",
+  "status": "en_cours"
+}
+
+### Sans couverture, lu
+POST {{api}}/books
+Content-Type: application/json
+
+{
+  "title": "Une femme",
+  "authors": "Annie Ernaux",
+  "status": "lu"
+}
+
+### Avec couverture (vrai résultat Google Books), lu
+POST {{api}}/books
+Content-Type: application/json
+
+{
+  "google_id": "1rNMuQEACAAJ",
+  "title": "Le Petit Prince",
+  "authors": "Antoine de Saint-Exupéry",
+  "cover_url": "https://books.google.com/books/content?id=1rNMuQEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+  "page_count": 84,
+  "isbn": "9781388247812",
+  "status": "lu"
+}
+
+### Avec couverture, à lire
+POST {{api}}/books
+Content-Type: application/json
+
+{
+  "google_id": "NmSOEQAAQBAJ",
+  "title": "1984",
+  "authors": "George Orwell",
+  "cover_url": "https://books.google.com/books/content?id=NmSOEQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+  "page_count": 493,
+  "isbn": "9782080145307",
+  "categories": "Fiction",
+  "status": "a_lire"
+}
+
+### Avec couverture, en cours
+POST {{api}}/books
+Content-Type: application/json
+
+{
+  "google_id": "8tAn3HYf898C",
+  "title": "Les Misérables",
+  "authors": "Victor Hugo",
+  "cover_url": "https://books.google.com/books/content?id=8tAn3HYf898C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+  "page_count": 656,
+  "isbn": "9781416500261",
+  "categories": "Fiction",
+  "status": "en_cours"
+}
+
+### ───── Requêtes utiles pour vérifier l'étape 6 ─────
+
+### Les livres "en cours"
+GET {{api}}/books?status=en_cours
+
+### Les livres "lus"
+GET {{api}}/books?status=lu
+
+### Recherche "camus" (titre ou auteur)
+GET {{api}}/books?q=camus
+
+### Recherche combinée avec un onglet : "camus" parmi les "lus"
+GET {{api}}/books?status=lu&q=camus
+
+### Recherche sans résultat (pour tester le message de liste vide)
+GET {{api}}/books?q=zzzz
