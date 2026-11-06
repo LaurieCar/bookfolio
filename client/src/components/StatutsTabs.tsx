@@ -33,7 +33,7 @@ export default function StatutsTabs({
             type="button"
             aria-pressed={actif}
             onClick={() => onChange(onglet.valeur)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-control font-medium ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-control font-medium cursor-pointer ${
               actif ? "bg-primary text-white" : "text-ink"
             }`}
           >
