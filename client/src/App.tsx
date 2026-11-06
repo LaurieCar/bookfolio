@@ -6,6 +6,7 @@ import LibraryPage from "./pages/LibraryPage.tsx";
 import AddBookPage from "./pages/AddBookPage.tsx";
 import BookDetailPage from "./pages/BookDetailPage.tsx";
 import StatsPage from "./pages/StatsPage.tsx";
+import DesignPage from "./pages/DesignPage.tsx";
 
 export default function App() {
   return (
@@ -18,6 +19,9 @@ export default function App() {
           <Route path="/ajouter" element={<AddBookPage />} />
           <Route path="/livre/:id" element={<BookDetailPage />} />
           <Route path="/stats" element={<StatsPage />} />
+          {import.meta.env.DEV && (
+            <Route path="/design" element={<DesignPage />} />
+          )}
         </Routes>
       </main>
     </div>
